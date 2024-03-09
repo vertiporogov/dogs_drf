@@ -1,7 +1,8 @@
 from rest_framework.generics import CreateAPIView, ListAPIView, DestroyAPIView, UpdateAPIView, RetrieveAPIView
 
 from dogs.models import Dog
-from dogs.serializers.dog import DogSerializer
+from dogs.serializers.category import DogListSerializer
+from dogs.serializers.dog import DogSerializer, DogDetailSerializer
 
 
 class DogCreateAPIView(CreateAPIView):
@@ -10,12 +11,12 @@ class DogCreateAPIView(CreateAPIView):
 
 
 class DogListAPIView(ListAPIView):
-    serializer_class = DogSerializer
+    serializer_class = DogListSerializer
     queryset = Dog.objects.all()
 
 
 class DogDetailAPIView(RetrieveAPIView):
-    serializer_class = DogSerializer
+    serializer_class = DogDetailSerializer
     queryset = Dog.objects.all()
 
 
