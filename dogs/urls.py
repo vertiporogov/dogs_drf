@@ -9,8 +9,8 @@ app_name = DogsConfig.name
 
 
 urlpatterns = [
-    path('', DogListAPIView.as_view()),
-    path('create/', DogCreateAPIView.as_view()),
+    path('', DogListAPIView.as_view(), name='list'),
+    path('create/', DogCreateAPIView.as_view(), name='dog_create'),
     path('<int:pk>/update/', DogUpdateAPIView.as_view()),
     path('<int:pk>/', DogDetailAPIView.as_view()),
     path('<int:pk>/delete/', DogDeleteAPIView.as_view()),
