@@ -6,3 +6,5 @@ psycopg2
 djangorestframework-simplejwt
 djangorestframework~=3.14.0
 flake8
+drf-yasg
+setuptools
