@@ -9,17 +9,20 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
-
+from datetime import timedelta
 from pathlib import Path
+import os
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+load_dotenv(BASE_DIR / '.env')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-7n&#f7krg%12r-+(u7*@ozg+72ob&!h%kfkgsm5%=p&2ujqmt*'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -42,6 +45,7 @@ INSTALLED_APPS = [
     'drf_yasg',
     'rest_framework_simplejwt',
     'rest_framework',
+    'django_celery_beat',
 ]
 
 MIDDLEWARE = [
@@ -80,9 +84,11 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'dogs_drf',
-        'USER': 'postgres',
-        'PASSWORD': '12345',
+        'NAME': os.getenv('POSTGRES_DB'),
+        'USER': os.getenv('POSTGRES_USER'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
+        'HOST': os.getenv('POSTGRES_HOST'),
+        'PORT': os.getenv('POSTGRES_PORT'),
     }
 }
 
@@ -133,4 +139,23 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 4
+}
+
+EMAIL_HOST = 'smtp.mail.ru'
+EMAIL_HOST_USER = 'vertiporogov.alexandr@mail.ru'
+EMAIL_PASSWORD = 'ppJp4Aag1dzcLeFZn5ad'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+CELERY_BROKER_URL = "redis://127.0.0.1:6379/0"
+
+CELERY_RESULT_BACKEND = "redis://127.0.0.1:6379/0"
+
+# CELERY_TASK_TRACK_STARTED = True
+
+CELERY_BEAT_SCHEDULE = {
+    'task_mail': {
+        'task': 'dog.tasks.send_message_like',
+        'schedule': timedelta(minutes=1)
+    }
 }

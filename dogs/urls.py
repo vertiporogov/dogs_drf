@@ -14,6 +14,7 @@ urlpatterns = [
     path('<int:pk>/update/', DogUpdateAPIView.as_view()),
     path('<int:pk>/', DogDetailAPIView.as_view()),
     path('<int:pk>/delete/', DogDeleteAPIView.as_view()),
+    path('set_like/', SetLikeToDog.as_view()),
 ]
 
 router = routers.SimpleRouter()

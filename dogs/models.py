@@ -25,6 +25,7 @@ class Dog(models.Model):
 
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, **NULLABLE, verbose_name='владелец')
     is_pablic = models.BooleanField(default=False)
+    likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='user_likes')
 
     def __str__(self):
         return f'{self.name} ({self.category})'
